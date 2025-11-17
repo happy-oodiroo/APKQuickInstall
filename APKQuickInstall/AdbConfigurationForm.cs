@@ -203,16 +203,6 @@ namespace APKQuickInstall
 
         public void ReloadLocalization()
         {
-            if (LocalizationManager.Instance.CurrentLanguage == "ar")
-            {
-                this.RightToLeft = RightToLeft.Yes;
-                positionManager.MirrorPositions(this, true);
-            }
-            else
-            {
-                this.RightToLeft = RightToLeft.No;
-            }
-
             // Titre du formulaire
             this.Text = T("AdbConfiguration.Title");
 

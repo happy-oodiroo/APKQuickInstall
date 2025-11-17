@@ -67,7 +67,7 @@ namespace APKQuickInstall
                 // Ouvrir le lien GitHub dans le navigateur
                 Process.Start(new ProcessStartInfo
                 {
-                    FileName = "https://github.com/yourusername/adb-apk-installer",
+                    FileName = "https://github.com/happy-oodiroo/APKQuickInstall",
                     UseShellExecute = true
                 });
             }

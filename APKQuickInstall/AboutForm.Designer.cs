@@ -116,9 +116,9 @@
             lblAuthor.AutoSize = true;
             lblAuthor.Location = new Point(80, 147);
             lblAuthor.Name = "lblAuthor";
-            lblAuthor.Size = new Size(82, 20);
+            lblAuthor.Size = new Size(80, 20);
             lblAuthor.TabIndex = 5;
-            lblAuthor.Text = "Your Name";
+            lblAuthor.Text = "Saïd SASSI";
             // 
             // lblDescriptionLabel
             // 

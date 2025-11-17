@@ -10,13 +10,35 @@
     <AssemblyTitle>APKQuickInstall</AssemblyTitle>
     <SignAssembly>False</SignAssembly>
     <PackageIcon>APKQuickInstall.icon.ico</PackageIcon>
+    <Title>APKQuickInstall</Title>
+    <Authors>Saïd SASSI</Authors>
+    <Description>A powerful windows tool to install and manage Android APK files via ADB (Android Debug Bridge). Supports USB and network connections with multi-language support. </Description>
+    <PackageProjectUrl>https://github.com/happy-oodiroo/APKQuickInstall</PackageProjectUrl>
+    <Platforms>AnyCPU;x86;x64</Platforms>
+    <SupportedOSPlatformVersion>7.0</SupportedOSPlatformVersion>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
     <DebugType>none</DebugType>
   </PropertyGroup>
 
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <DebugType>none</DebugType>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x86'">
+    <DebugType>none</DebugType>
+  </PropertyGroup>
+
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <DebugType>none</DebugType>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <DebugType>none</DebugType>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x86'">
     <DebugType>none</DebugType>
   </PropertyGroup>
 
