@@ -39,18 +39,7 @@
         private System.Windows.Forms.ToolStripMenuItem menuLangFrench;
         private System.Windows.Forms.ToolStripMenuItem menuLangArabic;
 
-        /// <summary>
-        /// Clean up any resources being used.
-        /// </summary>
-        /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
-        protected override void Dispose(bool disposing)
-        {
-            if (disposing && (components != null))
-            {
-                components.Dispose();
-            }
-            base.Dispose(disposing);
-        }
+
 
         #region Windows Form Designer generated code
 
@@ -82,6 +71,7 @@
             grpLog = new GroupBox();
             txtLog = new TextBox();
             btnClearLog = new Button();
+            btnClose = new Button();
             menuStrip = new MenuStrip();
             menuLanguage = new ToolStripMenuItem();
             menuLangEnglish = new ToolStripMenuItem();
@@ -343,6 +333,26 @@
             btnClearLog.UseVisualStyleBackColor = true;
             btnClearLog.Click += BtnClearLog_Click;
             // 
+            // btnClose
+            // 
+            btnClose.AutoSize = true;
+            btnClose.AutoSizeMode = AutoSizeMode.GrowAndShrink;
+            btnClose.BackColor = Color.DarkRed;
+            btnClose.FlatAppearance.BorderSize = 0;
+            btnClose.FlatAppearance.MouseDownBackColor = Color.FromArgb(232, 17, 35);
+            btnClose.FlatAppearance.MouseOverBackColor = Color.FromArgb(255, 192, 192);
+            btnClose.FlatStyle = FlatStyle.Flat;
+            btnClose.Font = new Font("Segoe UI Semibold", 9.07563F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            btnClose.ForeColor = Color.White;
+            btnClose.Location = new Point(855, 2);
+            btnClose.Margin = new Padding(3, 4, 3, 4);
+            btnClose.Name = "btnClose";
+            btnClose.Size = new Size(38, 30);
+            btnClose.TabIndex = 2;
+            btnClose.Text = "(&X)";
+            btnClose.UseVisualStyleBackColor = false;
+            btnClose.Click += btnClose_Click;
+            // 
             // menuStrip
             // 
             menuStrip.BackColor = Color.Transparent;
@@ -400,7 +410,10 @@
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
+            CausesValidation = false;
             ClientSize = new Size(896, 770);
+            ControlBox = false;
+            Controls.Add(btnClose);
             Controls.Add(grpLog);
             Controls.Add(lblProgress);
             Controls.Add(progressBar);
@@ -411,11 +424,11 @@
             Controls.Add(grpDevice);
             Controls.Add(menuStrip);
             FormBorderStyle = FormBorderStyle.FixedSingle;
-            HelpButton = true;
             Icon = (Icon)resources.GetObject("$this.Icon");
             MainMenuStrip = menuStrip;
             Margin = new Padding(3, 4, 3, 4);
             MaximizeBox = false;
+            MinimizeBox = false;
             Name = "MainForm";
             StartPosition = FormStartPosition.CenterScreen;
             Text = "ADB APK Installer - Installation d'applications Android";
@@ -438,5 +451,6 @@
 
         private ToolStripMenuItem menuConfigurationADB;
         private ToolStripMenuItem menuAbout;
+        private Button btnClose;
     }
 }

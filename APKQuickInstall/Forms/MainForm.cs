@@ -22,6 +22,7 @@ namespace APKQuickInstall
     {
 
         private AdbClient adbClient;
+        private AdbServer adbServer;
         private DeviceData? selectedDevice;
         private string selectedApkPath;
         private ControlPositionManager positionManager = new ControlPositionManager();
@@ -35,7 +36,7 @@ namespace APKQuickInstall
         private void MainForm_Load(object sender, EventArgs e)
         {
             var config = AdbConfiguration.Load();
-            while (config == null || !config.IsValid())
+            if (config == null || !config.IsValid())
             {
                 using var configForm = new AdbConfigurationForm();
                 var result = configForm.ShowDialog();
@@ -52,31 +53,30 @@ namespace APKQuickInstall
                     this.Close();
                     return;
                 }
+            }
 
+            try
+            {
+                adbServer = new AdbServer();
+                var adbPath = config.AdbPath;
 
-                try
-                {
-                    var adbServer = new AdbServer();
-                    var adbPath = config.AdbPath;
+                adbServer.StartServer(adbPath, restartServerIfNewer: true);
+                adbClient = new AdbClient();
 
-                    adbServer.StartServer(adbPath, restartServerIfNewer: false);
-                    adbClient = new AdbClient();
+                LogMessage(T("MainForm.AdbInitialized", [config.AdbVersion]));
+                LogMessage(T("MainForm.AdbPath", [config.AdbPath]));
+                LogMessage("─────────────────────────────────────");
 
-                    LogMessage(T("MainForm.AdbInitialized", config.AdbVersion));
-                    LogMessage(T("MainForm.AdbPath", config.AdbPath));
-                    LogMessage("─────────────────────────────────────");
-
-                    RefreshDevices();
-                }
-                catch (Exception ex)
-                {
-                    ShowMessage("MainForm.AdbInitError",
-                        "Common.Error",
-                        MessageBoxButtons.OK,
-                        MessageBoxIcon.Error,
-                        ex.Message);
-                    this.Close();
-                }
+                RefreshDevices();
+            }
+            catch (Exception ex)
+            {
+                ShowMessage("MainForm.AdbInitError",
+                    "Common.Error",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Error,
+                    ex.Message);
+                this.Close();
             }
         }
 
@@ -167,7 +167,7 @@ namespace APKQuickInstall
             }
             catch (Exception ex)
             {
-                LogMessage(T("MainForm.ErrorDetectingDevices", ex.Message));
+                LogMessage(T("MainForm.ErrorDetectingDevices", [ex.Message]));
             }
         }
 
@@ -206,7 +206,7 @@ namespace APKQuickInstall
                 // Afficher la taille du fichier
                 var fileInfo = new FileInfo(selectedApkPath);
                 var sizeMB = fileInfo.Length / (1024.0 * 1024.0);
-                lblApkSize.Text = T("MainForm.FileSize", sizeMB.ToString("F2"));
+                lblApkSize.Text = T("MainForm.FileSize", [sizeMB.ToString("F2")]);
 
                 LogMessage(T("MainForm.ApkSelected", Path.GetFileName(selectedApkPath), sizeMB.ToString("F2")));
 
@@ -236,7 +236,7 @@ namespace APKQuickInstall
             try
             {
                 LogMessage("─────────────────────────────────────");
-                LogMessage(T("MainForm.InstallationStarted", selectedDevice.Value.Model));
+                LogMessage(T("MainForm.InstallationStarted", [selectedDevice.Value.Model]));
 
                 var packageManager = new PackageManager(adbClient, selectedDevice.Value);
 
@@ -279,7 +279,7 @@ namespace APKQuickInstall
             }
             catch (Exception ex)
             {
-                LogMessage(T("MainForm.InstallationError", ex.Message));
+                LogMessage(T("MainForm.InstallationError", [ex.Message]));
                 ShowMessage("MainForm.InstallationErrorMessage",
                     "Common.Error",
                     MessageBoxButtons.OK,
@@ -377,7 +377,7 @@ namespace APKQuickInstall
             try
             {
                 LogMessage("─────────────────────────────────────");
-                LogMessage(T("MainForm.UninstallStarted", packageName));
+                LogMessage(T("MainForm.UninstallStarted", [packageName]));
 
                 var packageManager = new PackageManager(adbClient, selectedDevice.Value);
 
@@ -386,7 +386,7 @@ namespace APKQuickInstall
                     packageManager.UninstallPackage(packageName);
                 });
 
-                LogMessage(T("MainForm.UninstallSuccessful", packageName));
+                LogMessage(T("MainForm.UninstallSuccessful", [packageName]));
                 ShowMessage("MainForm.UninstallSuccessMessage",
                     "Common.Success",
                     MessageBoxButtons.OK,
@@ -395,7 +395,7 @@ namespace APKQuickInstall
             }
             catch (Exception ex)
             {
-                LogMessage(T("MainForm.UninstallError", ex.Message));
+                LogMessage(T("MainForm.UninstallError", [ex.Message]));
                 ShowMessage("MainForm.UninstallErrorMessage",
                     "Common.Error",
                     MessageBoxButtons.OK,
@@ -428,7 +428,7 @@ namespace APKQuickInstall
         {
             ChangeLanguageAndReload("ar");
         }
-
+        
         private void ChangeLanguageAndReload(string languageCode)
         {
             try
@@ -439,7 +439,7 @@ namespace APKQuickInstall
                 // Mettre à jour les coches dans le menu
                 UpdateLanguageMenuChecks(languageCode);
 
-                LogMessage(T("MainForm.LanguageChanged", LocalizationManager.GetLanguageDisplayName(languageCode)));
+                LogMessage(T("MainForm.LanguageChanged", [LocalizationManager.GetLanguageDisplayName(languageCode)]));
             }
             catch (Exception ex)
             {
@@ -468,11 +468,9 @@ namespace APKQuickInstall
             txtLog.AppendText($"[{DateTime.Now:HH:mm:ss}] {message}{Environment.NewLine}");
             txtLog.ScrollToCaret();
         }
-
-
-
+        
         private void SetControlsEnabled(bool enabled)
-        {
+        {   btnClose.Enabled = enabled;
             cmbDevices.Enabled = enabled;
             btnRefreshDevices.Enabled = enabled;
             btnBrowseApk.Enabled = enabled;
@@ -507,6 +505,27 @@ namespace APKQuickInstall
         {
             using var aboutForm = new AboutForm();
             aboutForm.ShowDialog();
+        }
+        /// <summary>
+        /// Clean up any resources being used.
+        /// </summary>
+        /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
+        protected override void Dispose(bool disposing)
+        {
+
+            if (disposing && (components != null))
+            {
+                components.Dispose();
+            }
+        }
+
+        private void btnClose_Click(object sender, EventArgs e)
+        {
+            if (adbServer.GetStatus().IsRunning)
+            {
+                adbServer.StopServer();
+            }
+            Environment.Exit(0);
         }
     }
 }

@@ -1,0 +1,9 @@
+{
+  "profiles": {
+    "APKQuickInstall": {
+      "commandName": "Project",
+      "hotReloadEnabled": true,
+      "nativeDebugging": true
+    }
+  }
+}

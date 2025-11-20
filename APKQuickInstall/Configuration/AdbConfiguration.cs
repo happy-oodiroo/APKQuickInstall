@@ -25,8 +25,7 @@ public class AdbConfiguration
     /// </summary>
     public DateTime LastVerified { get; set; } = DateTime.MinValue;
 
-    private static readonly string ConfigFilePath = Path.Combine(
-        AppDomain.CurrentDomain.BaseDirectory,
+    private static readonly string ConfigFilePath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),
         "config.json"
     );
 

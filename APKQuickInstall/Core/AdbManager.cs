@@ -127,7 +127,9 @@ namespace APKQuickInstall.Core
         public static async Task<string> DownloadAndInstallAdb(IProgress<int> progress = null)
         {
             var tempZipPath = Path.Combine(Path.GetTempPath(), "platform-tools.zip");
-            var installPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "platform-tools");
+            var installPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData), Application.ProductName);
+            var toolsPath = Path.Combine(installPath, "platform-tools");
+            var adbPath = Path.Combine(toolsPath, "adb.exe");
 
             try
             {
@@ -165,19 +167,18 @@ namespace APKQuickInstall.Core
                 progress?.Report(50);
 
                 // Supprimer le dossier existant si présent
-                if (Directory.Exists(installPath))
+                if (Directory.Exists(toolsPath))
                 {
-                    Directory.Delete(installPath, true);
+                    Directory.Delete(toolsPath, true);
                 }
+                Directory.CreateDirectory(installPath);
 
                 // Extraire le ZIP
-                ZipFile.ExtractToDirectory(tempZipPath, AppDomain.CurrentDomain.BaseDirectory);
+                ZipFile.ExtractToDirectory(tempZipPath, installPath, true);
                 progress?.Report(100);
 
                 // Supprimer le fichier temporaire
                 File.Delete(tempZipPath);
-
-                var adbPath = Path.Combine(installPath, "adb.exe");
 
                 if (!File.Exists(adbPath))
                 {

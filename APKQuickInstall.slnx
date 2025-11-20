@@ -11,10 +11,10 @@
     <File Path="README.md" />
   </Folder>
   <Project Path="APKQuickInstall.Setup/APKQuickInstall.Setup.wapproj" Type="c7167f0d-bc9f-4e6e-afe1-012c56b48db5" Id="472e087b-0de8-496d-bc3a-eb6e17ebb985">
+    <Platform Solution="Debug|x86" Project="Any CPU" />
     <Deploy />
   </Project>
   <Project Path="APKQuickInstall/APKQuickInstall.csproj">
     <Platform Solution="*|x64" Project="x64" />
-    <Platform Solution="Debug|x86" Project="x86" />
   </Project>
 </Solution>

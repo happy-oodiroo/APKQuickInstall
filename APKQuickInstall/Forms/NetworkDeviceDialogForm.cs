@@ -19,8 +19,7 @@ namespace APKQuickInstall
         private AdbClient adbClient;
         public bool ConnectionSuccessful { get; private set; }
 
-        private static readonly string HistoryFilePath = Path.Combine(
-           AppDomain.CurrentDomain.BaseDirectory,
+        private static readonly string HistoryFilePath = Path.Combine(Program.AppDataPath,
            "network_history.json"
        );
 
@@ -125,7 +124,7 @@ namespace APKQuickInstall
 
                 ConnectionSuccessful = true;
 
-                ShowMessage("NetworkDialog.ConnectionSuccessMessage",
+                ShowMessage(T("NetworkDialog.ConnectionSuccessMessage",args: [$"{ipAddress}:{port}"]),
                     "Common.Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
                 // Sauvegarder dans l'historique
@@ -139,7 +138,7 @@ namespace APKQuickInstall
                 lblStatus.Text = T("NetworkDialog.ConnectionFailed");
                 lblStatus.ForeColor = Color.Red;
                 ShowLocalizedMessage(T("NetworkDialog.ConnectionFailedMessage",
-                    ex.Message), "Common.Error",
+                    new { ex.Message }), "Common.Error",
                     MessageBoxButtons.OK, MessageBoxIcon.Error);
 
                 SetControlsEnabled(true);

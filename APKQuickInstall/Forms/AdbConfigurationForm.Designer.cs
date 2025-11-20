@@ -118,12 +118,12 @@
             // 
             // txtAdbPath
             // 
-            txtAdbPath.BackColor = Color.WhiteSmoke;
+            txtAdbPath.BorderStyle = BorderStyle.None;
             txtAdbPath.Location = new Point(137, 169);
             txtAdbPath.Margin = new Padding(3, 4, 3, 4);
             txtAdbPath.Name = "txtAdbPath";
             txtAdbPath.ReadOnly = true;
-            txtAdbPath.Size = new Size(514, 27);
+            txtAdbPath.Size = new Size(514, 20);
             txtAdbPath.TabIndex = 6;
             // 
             // progressBar

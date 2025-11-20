@@ -10,7 +10,7 @@
   <Identity
     Name="SADSASSI.209184820390"
     Publisher="CN=66199751-FD13-4B41-A95C-96B8A029C3DF"
-    Version="1.0.0.0" />
+    Version="1.0.1.0" />
 
   <Properties>
     <DisplayName>APK Quick Install</DisplayName>

@@ -131,7 +131,7 @@ namespace APKQuickInstall
             }
             catch (Exception ex)
             {
-                ShowLocalizedMessage(T("AdbConfiguration.InstallationError",ex.Message),
+                ShowLocalizedMessage(T("AdbConfiguration.InstallationError", new { ex.Message }),
                     "Common.Error",
                     MessageBoxButtons.OK,
                     MessageBoxIcon.Error);
